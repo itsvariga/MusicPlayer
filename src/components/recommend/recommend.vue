@@ -34,7 +34,14 @@
   </div> -->
   <div class="recommend">
     <div class="recommend-content">
-      <div class="slider-wrapper">
+      <div v-if="recommends.length" class="slider-wrapper">
+        <slider>
+          <div v-for="item in recommends">
+            <a :href="item.linkUrl">
+              <img class="needsclick" @load="loadImage" :src="item.picUrl">
+            </a>
+          </div>
+        </slider>
       </div>
       <div class="recommend-list">
         <h1 class="list-title">热门歌单推荐</h1>
@@ -47,7 +54,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-// import Slider from 'base/slider/slider'
+import Slider from 'base/slider/slider'
 // import Loading from 'base/loading/loading'
 // import Scroll from 'base/scroll/scroll'
 // import {getRecommend, getDiscList} from 'api/recommend'
@@ -106,11 +113,11 @@ export default {
 //       setDisc: 'SET_DISC'
 //     })
   },
-//   components: {
-//     Slider,
-//     Loading,
-//     Scroll
-//   }
+  components: {
+    Slider
+    // Loading,
+    // Scroll
+  }
 }
 </script>
 
