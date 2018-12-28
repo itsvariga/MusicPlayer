@@ -5,7 +5,7 @@
       </slot>
     </div>
     <div class="dots">
-      <span class="dot" :class="{active: currentPageIndex === index }" v-for="(item, index) in dots"></span>
+      <span class="dot" :class="{active: currentPageIndex === index }" v-for="(item, index) in dots" :key="index"></span>
     </div>
   </div>
 </template>
@@ -55,17 +55,17 @@ export default {
       this.slider.refresh()
     })
   },
-//   activated() {
-//     if (this.autoPlay) {
-//       this._play()
-//     }
-//   },
-//   deactivated() {
-//     clearTimeout(this.timer)
-//   },
-//   beforeDestroy() {
-//     clearTimeout(this.timer)
-//   },
+  // activated() {
+  //   if (this.autoPlay) {
+  //     this._play()
+  //   }
+  // },
+  deactivated() {
+    clearTimeout(this.timer)
+  },
+  // beforeDestroy() {
+  //   clearTimeout(this.timer)
+  // },
   methods: {
     _setSliderWidth(isResize) {
       this.children = this.$refs.sliderGroup.children

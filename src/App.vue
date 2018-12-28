@@ -2,9 +2,9 @@
   <div id="app" @touchmove.prevent>
     <m-header></m-header>
     <tab></tab>
-    <!-- <keep-alive> -->
+    <keep-alive>
       <router-view></router-view>
-    <!-- </keep-alive> -->
+    </keep-alive>
     <!-- <player></player> -->
   </div>
 </template>
