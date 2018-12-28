@@ -30,5 +30,6 @@ module.exports = {
     'eol-last': 0,
     'space-before-function-paren': 0,
     "quotes": [1, "single"], //引号类型 `` "" ''
+    "no-multiple-empty-lines": [2, {"max": 2}]
   }
 }
