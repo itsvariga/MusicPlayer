@@ -1,7 +1,7 @@
 <template>
   <div class="singer" ref="singer">
     <list-view @select="selectSinger" :data="singers" ref="list"></list-view>
-    <!-- <router-view></router-view> -->
+    <router-view></router-view>
   </div>
 </template>
 
@@ -32,12 +32,12 @@ export default {
     //   this.$refs.singer.style.bottom = bottom
     //   this.$refs.list.refresh()
     // },
-    // selectSinger(singer) {
-    //   this.$router.push({
-    //     path:`/singer/${singer.id}`
-    //   })
-    //   this.setSinger(singer)
-    // },
+    selectSinger(singer) {
+      this.$router.push({
+        path: `/singer/${singer.id}`
+      })
+      // this.setSinger(singer)
+    },
     _getSingerList() {
       getSingerList().then(res => {
         if (res.code === ERR_OK) {
