@@ -1,11 +1,11 @@
 <template>
   <transition name="slide">
-    <!-- <music-list :title="title" :bg-image="bgImage" :songs="songs"></music-list> -->
+    <music-list :title="title" :bg-image="bgImage" :songs="songs"></music-list>
   </transition>
 </template>
 
 <script type="text/ecmascript-6">
-// import MusicList from 'components/music-list/music-list'
+import MusicList from 'components/music-list/music-list'
 import {getSingerDetail} from 'api/singer'
 import {ERR_OK} from 'api/config'
 import {createSong} from 'common/js/song'
@@ -53,10 +53,10 @@ export default {
       })
       return ret
     }
+  },
+  components: {
+    MusicList
   }
-  // components: {
-  //   MusicList
-  // }
 }
 </script>
 
