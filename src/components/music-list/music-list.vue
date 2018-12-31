@@ -32,7 +32,7 @@ import Loading from 'base/loading/loading'
 import SongList from 'base/song-list/song-list'
 import {prefixStyle} from 'common/js/dom'
 // import {playlistMixin} from 'common/js/mixin'
-// import {mapActions} from 'vuex'
+import {mapActions} from 'vuex'
 
 const RESERVED_HEIGHT = 40
 const transform = prefixStyle('transform')
@@ -99,11 +99,11 @@ export default {
       this.randomPlay({
         list: this.songs
       })
-    }
-    // ...mapActions([
-    //   'selectPlay',
-    //   'randomPlay'
-    // ])
+    },
+    ...mapActions([
+      'selectPlay'
+      // 'randomPlay'
+    ])
   },
   watch: {
     scrollY(newVal) {
