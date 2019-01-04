@@ -9,8 +9,8 @@ const state = {
   sequenceList: [],
   mode: playMode.sequence,
   currentIndex: -1,
-  disc: {}
-  // topList: {},
+  disc: {},
+  topList: {}
   // searchHistory: loadSearch(),
   // playHistory: loadPlay(),
   // favoriteList: loadFavorite()
