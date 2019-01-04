@@ -30,7 +30,7 @@
         <loading></loading>
       </div>
     </scroll>
-    <!-- <router-view></router-view> -->
+    <router-view></router-view>
   </div>
 </template>
 
@@ -41,7 +41,7 @@ import Scroll from 'base/scroll/scroll'
 import {getRecommend, getDiscList} from 'api/recommend'
 // import {playlistMixin} from 'common/js/mixin'
 import {ERR_OK} from 'api/config'
-// import {mapMutations} from 'vuex'
+import {mapMutations} from 'vuex'
 
 export default {
   // mixins: [playlistMixin],
@@ -68,12 +68,12 @@ export default {
         this.$refs.scroll.refresh()
       }
     },
-    // selectItem(item) {
-    //   this.$router.push({
-    //     path: `/recommend/${item.dissid}`
-    //   })
-    //   this.setDisc(item)
-    // },
+    selectItem(item) {
+      this.$router.push({
+        path: `/recommend/${item.dissid}`
+      })
+      this.setDisc(item)
+    },
     _getRecommend() {
       getRecommend().then((res) => {
         if (res.code === ERR_OK) {
@@ -87,10 +87,10 @@ export default {
           this.discList = res.data.list
         }
       })
-    }
-    // ...mapMutations({
-    //   setDisc: 'SET_DISC'
-    // })
+    },
+    ...mapMutations({
+      setDisc: 'SET_DISC'
+    })
   },
   components: {
     Slider,
