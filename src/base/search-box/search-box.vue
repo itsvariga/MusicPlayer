@@ -24,13 +24,13 @@ export default {
   methods: {
     clear() {
       this.query = ''
+    },
+    setQuery(query) {
+      this.query = query
+    },
+    blur() {
+      this.$refs.query.blur()
     }
-    // setQuery(query) {
-    //   this.query = query
-    // },
-    // blur() {
-    //   this.$refs.query.blur()
-    // }
   },
   created() {
     this.$watch('query', debounce((newQuery) => {
