@@ -24,10 +24,10 @@ export default {
   methods: {
     clear() {
       this.query = ''
+    },
+    setQuery(query) {
+      this.query = query
     }
-    // setQuery(query) {
-    //   this.query = query
-    // },
     // blur() {
     //   this.$refs.query.blur()
     // }
