@@ -8,7 +8,7 @@
           @beforeScroll="listScroll"
   >
     <ul class="suggest-list">
-      <li class="suggest-item" v-for="(item, index) in result" :key="'suggest' + index">
+      <li @click="selectItem(item)" class="suggest-item" v-for="(item, index) in result" :key="'suggest' + index">
         <div class="icon">
           <i :class="getIconCls(item)"></i>
         </div>
@@ -87,21 +87,21 @@ export default {
     listScroll() {
       this.$emit('listScroll')
     },
-    // selectItem(item) {
-    //   if (item.type === TYPE_SINGER) {
-    //     const singer = new Singer({
-    //       id: item.singermid,
-    //       name: item.singername
-    //     })
-    //     this.$router.push({
-    //       path: `/search/${singer.id}`
-    //     })
-    //     this.setSinger(singer)
-    //   } else {
-    //     this.insertSong(item)
-    //   }
-    //   this.$emit('select', item)
-    // },
+    selectItem(item) {
+      // if (item.type === TYPE_SINGER) {
+      //   const singer = new Singer({
+      //     id: item.singermid,
+      //     name: item.singername
+      //   })
+      //   this.$router.push({
+      //     path: `/search/${singer.id}`
+      //   })
+      //   this.setSinger(singer)
+      // } else {
+      //   this.insertSong(item)
+      // }
+      this.$emit('select', item)
+    },
     getDisplayName(item) {
       if (item.type === TYPE_SINGER) {
         return item.singername

@@ -13,19 +13,19 @@
               </li>
             </ul>
           </div>
-          <!-- <div class="search-history" v-show="searchHistory.length">
+          <div class="search-history" v-show="searchHistory.length">
             <h1 class="title">
               <span class="text">搜索历史</span>
-              <span @click="showConfirm" class="clear">
+              <span class="clear" @click="clearSearchHistory">
                 <i class="icon-clear"></i>
               </span>
             </h1>
             <search-list @delete="deleteSearchHistory" @select="addQuery" :searches="searchHistory"></search-list>
-          </div> -->
+          </div>
       </div>
     </div>
     <div class="search-result" v-show="query" ref="searchResult">
-      <suggest ref="suggest" :query="query" @listScroll="blurInput"></suggest>
+      <suggest ref="suggest" :query="query" @listScroll="blurInput" @select="saveSearch"></suggest>
     </div>
     <!-- <confirm ref="confirm" @confirm="clearSearchHistory" text="是否清空所有搜索历史" confirmBtnText="清空"></confirm> -->
     <!-- <router-view></router-view> -->
@@ -34,14 +34,14 @@
 
 <script type="text/ecmascript-6">
 import SearchBox from 'base/search-box/search-box'
-// import SearchList from 'base/search-list/search-list'
+import SearchList from 'base/search-list/search-list'
 // import Scroll from 'base/scroll/scroll'
 // import Confirm from 'base/confirm/confirm'
 import Suggest from 'components/suggest/suggest'
 import {getHotKey} from 'api/search'
 import {ERR_OK} from 'api/config'
 // import {playlistMixin, searchMixin} from 'common/js/mixin'
-// import {mapActions} from 'vuex'
+import {mapActions, mapGetters} from 'vuex'
 
 export default {
   // mixins: [playlistMixin, searchMixin],
@@ -51,23 +51,30 @@ export default {
       query: ''
     }
   },
-  // computed: {
-  //   shortcut() {
-  //     return this.hotKey.concat(this.searchHistory)
-  //   }
-  // },
+  computed: {
+    // shortcut() {
+    //   return this.hotKey.concat(this.searchHistory)
+    // }
+    ...mapGetters([
+      'searchHistory'
+    ])
+  },
   created() {
     this._getHotKey()
   },
   methods: {
     addQuery(query) {
       this.$refs.searchBox.setQuery(query)
+      this.saveSearchHistory(query)
     },
     onQueryChange(query) {
       this.query = query
     },
     blurInput() {
       this.$refs.searchBox.blur()
+    },
+    saveSearch() {
+      this.saveSearchHistory(this.query)
     },
     // handlePlaylist(playlist) {
     //   const bottom = playlist.length > 0 ? '60px' : ''
@@ -87,10 +94,13 @@ export default {
           this.hotKey = res.data.hotkey.slice(0, 10)
         }
       })
-    }
-    // ...mapActions([
-    //   'clearSearchHistory'
-    // ])
+    },
+    ...mapActions([
+      // 'clearSearchHistory'
+      'saveSearchHistory',
+      'deleteSearchHistory',
+      'clearSearchHistory'
+    ])
   },
   watch: {
     // query(newQuery) {
@@ -103,7 +113,7 @@ export default {
   },
   components: {
     SearchBox,
-    // SearchList,
+    SearchList,
     // Scroll,
     // Confirm,
     Suggest
