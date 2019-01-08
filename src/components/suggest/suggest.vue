@@ -1,28 +1,11 @@
 <template>
-  <!-- <scroll ref="suggest"
+  <scroll ref="suggest"
           class="suggest"
           :data="result"
           :pullup="pullup"
           :beforeScroll="beforeScroll"
           @scrollToEnd="searchMore"
-          @beforeScroll="listScroll"
   >
-    <ul class="suggest-list">
-      <li @click="selectItem(item)" class="suggest-item" v-for="item in result">
-        <div class="icon">
-          <i :class="getIconCls(item)"></i>
-        </div>
-        <div class="name">
-          <p class="text" v-html="getDisplayName(item)"></p>
-        </div>
-      </li>
-      <loading v-show="hasMore" title=""></loading>
-    </ul>
-    <div v-show="!hasMore && !result.length" class="no-result-wrapper">
-      <no-result title="抱歉，暂无搜索结果"></no-result>
-    </div>
-  </scroll> -->
-  <div class="suggest">
     <ul class="suggest-list">
       <li class="suggest-item" v-for="(item, index) in result" :key="'suggest' + index">
         <div class="icon">
@@ -32,13 +15,17 @@
           <p class="text" v-html="getDisplayName(item)"></p>
         </div>
       </li>
+      <loading v-show="hasMore" title=""></loading>
     </ul>
-  </div>
+    <!-- <div v-show="!hasMore && !result.length" class="no-result-wrapper">
+      <no-result title="抱歉，暂无搜索结果"></no-result>
+    </div> -->
+  </scroll>
 </template>
 
 <script type="text/ecmascript-6">
-// import Scroll from 'base/scroll/scroll'
-// import Loading from 'base/loading/loading'
+import Scroll from 'base/scroll/scroll'
+import Loading from 'base/loading/loading'
 // import NoResult from 'base/no-result/no-result'
 import {search} from 'api/search'
 import {ERR_OK} from 'api/config'
@@ -63,9 +50,9 @@ export default {
   data() {
     return {
       page: 1,
-      // pullup: true,
-      // beforeScroll: true,
-      // hasMore: true,
+      pullup: true,
+      beforeScroll: true,
+      hasMore: true,
       result: []
     }
   },
@@ -76,26 +63,26 @@ export default {
     search() {
       this.page = 1
       this.hasMore = true
-      // this.$refs.suggest.scrollTo(0, 0)
+      this.$refs.suggest.scrollTo(0, 0)
       search(this.query, this.page, this.showSinger, perpage).then((res) => {
         if (res.code === ERR_OK) {
           this.result = this._genResult(res.data)
-          // this._checkMore(res.data)
+          this._checkMore(res.data)
         }
       })
     },
-    // searchMore() {
-    //   if (!this.hasMore) {
-    //     return
-    //   }
-    //   this.page++
-    //   search(this.query, this.page, this.showSinger, perpage).then((res) => {
-    //     if (res.code === ERR_OK) {
-    //       this.result = this.result.concat(this._genResult(res.data))
-    //       this._checkMore(res.data)
-    //     }
-    //   })
-    // },
+    searchMore() {
+      if (!this.hasMore) {
+        return
+      }
+      this.page++
+      search(this.query, this.page, this.showSinger, perpage).then((res) => {
+        if (res.code === ERR_OK) {
+          this.result = this.result.concat(this._genResult(res.data))
+          this._checkMore(res.data)
+        }
+      })
+    },
     // listScroll() {
     //   this.$emit('listScroll')
     // },
@@ -146,13 +133,13 @@ export default {
         }
       })
       return ret
+    },
+    _checkMore(data) {
+      const song = data.song
+      if (!song.list.length || (song.curnum + song.curpage * perpage) > song.totalnum) {
+        this.hasMore = false
+      }
     }
-    // _checkMore(data) {
-    //   const song = data.song
-    //   if (!song.list.length || (song.curnum + song.curpage * perpage) > song.totalnum) {
-    //     this.hasMore = false
-    //   }
-    // },
     // ...mapMutations({
     //   setSinger: 'SET_SINGER'
     // }),
@@ -166,8 +153,8 @@ export default {
     }
   },
   components: {
-    // Scroll,
-    // Loading,
+    Scroll,
+    Loading
     // NoResult
   }
 }
