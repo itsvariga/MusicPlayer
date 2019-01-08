@@ -25,7 +25,7 @@
       </div>
     </div>
     <div class="search-result" v-show="query" ref="searchResult">
-      <suggest ref="suggest" :query="query"></suggest>
+      <suggest ref="suggest" :query="query" @listScroll="blurInput"></suggest>
     </div>
     <!-- <confirm ref="confirm" @confirm="clearSearchHistory" text="是否清空所有搜索历史" confirmBtnText="清空"></confirm> -->
     <!-- <router-view></router-view> -->
@@ -65,6 +65,9 @@ export default {
     },
     onQueryChange(query) {
       this.query = query
+    },
+    blurInput() {
+      this.$refs.searchBox.blur()
     },
     // handlePlaylist(playlist) {
     //   const bottom = playlist.length > 0 ? '60px' : ''

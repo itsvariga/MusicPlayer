@@ -5,6 +5,7 @@
           :pullup="pullup"
           :beforeScroll="beforeScroll"
           @scrollToEnd="searchMore"
+          @beforeScroll="listScroll"
   >
     <ul class="suggest-list">
       <li class="suggest-item" v-for="(item, index) in result" :key="'suggest' + index">
@@ -83,9 +84,9 @@ export default {
         }
       })
     },
-    // listScroll() {
-    //   this.$emit('listScroll')
-    // },
+    listScroll() {
+      this.$emit('listScroll')
+    },
     // selectItem(item) {
     //   if (item.type === TYPE_SINGER) {
     //     const singer = new Singer({
