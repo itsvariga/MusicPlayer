@@ -4,7 +4,8 @@
       <search-box ref="searchBox" @query="onQueryChange"></search-box>
     </div>
     <div ref="shortcutWrapper" class="shortcut-wrapper" v-show="!query">
-      <div ref="shortcut" class="shortcut">
+      <scroll :refreshDelay="refreshDelay" ref="shortcut" class="shortcut" :data="shortcut">
+        <div>
           <div class="hot-key">
             <h1 class="title">热门搜索</h1>
             <ul>
@@ -22,7 +23,8 @@
             </h1>
             <search-list @delete="deleteSearchHistory" @select="addQuery" :searches="searchHistory"></search-list>
           </div>
-      </div>
+        </div>
+      </scroll>
     </div>
     <div class="search-result" v-show="query" ref="searchResult">
       <suggest ref="suggest" :query="query" @listScroll="blurInput" @select="saveSearch"></suggest>
@@ -35,7 +37,7 @@
 <script type="text/ecmascript-6">
 import SearchBox from 'base/search-box/search-box'
 import SearchList from 'base/search-list/search-list'
-// import Scroll from 'base/scroll/scroll'
+import Scroll from 'base/scroll/scroll'
 import Confirm from 'base/confirm/confirm'
 import Suggest from 'components/suggest/suggest'
 import {getHotKey} from 'api/search'
@@ -52,9 +54,9 @@ export default {
     }
   },
   computed: {
-    // shortcut() {
-    //   return this.hotKey.concat(this.searchHistory)
-    // }
+    shortcut() {
+      return this.hotKey.concat(this.searchHistory)
+    },
     ...mapGetters([
       'searchHistory'
     ])
@@ -103,18 +105,18 @@ export default {
     ])
   },
   watch: {
-    // query(newQuery) {
-    //   if (!newQuery) {
-    //     setTimeout(() => {
-    //       this.$refs.shortcut.refresh()
-    //     }, 20)
-    //   }
-    // }
+    query(newQuery) {
+      if (!newQuery) {
+        setTimeout(() => {
+          this.$refs.shortcut.refresh()
+        }, 20)
+      }
+    }
   },
   components: {
     SearchBox,
     SearchList,
-    // Scroll,
+    Scroll,
     Confirm,
     Suggest
   }
