@@ -16,7 +16,7 @@
           <div class="search-history" v-show="searchHistory.length">
             <h1 class="title">
               <span class="text">搜索历史</span>
-              <span class="clear" @click="clearSearchHistory">
+              <span class="clear" @click="showConfirm">
                 <i class="icon-clear"></i>
               </span>
             </h1>
@@ -27,7 +27,7 @@
     <div class="search-result" v-show="query" ref="searchResult">
       <suggest ref="suggest" :query="query" @listScroll="blurInput" @select="saveSearch"></suggest>
     </div>
-    <!-- <confirm ref="confirm" @confirm="clearSearchHistory" text="是否清空所有搜索历史" confirmBtnText="清空"></confirm> -->
+    <confirm ref="confirm" @confirm="clearSearchHistory" text="是否清空所有搜索历史" confirmBtnText="清空"></confirm>
     <!-- <router-view></router-view> -->
   </div>
 </template>
@@ -36,7 +36,7 @@
 import SearchBox from 'base/search-box/search-box'
 import SearchList from 'base/search-list/search-list'
 // import Scroll from 'base/scroll/scroll'
-// import Confirm from 'base/confirm/confirm'
+import Confirm from 'base/confirm/confirm'
 import Suggest from 'components/suggest/suggest'
 import {getHotKey} from 'api/search'
 import {ERR_OK} from 'api/config'
@@ -85,9 +85,9 @@ export default {
     //   this.$refs.shortcutWrapper.style.bottom = bottom
     //   this.$refs.shortcut.refresh()
     // },
-    // showConfirm() {
-    //   this.$refs.confirm.show()
-    // },
+    showConfirm() {
+      this.$refs.confirm.show()
+    },
     _getHotKey() {
       getHotKey().then((res) => {
         if (res.code === ERR_OK) {
@@ -115,7 +115,7 @@ export default {
     SearchBox,
     SearchList,
     // Scroll,
-    // Confirm,
+    Confirm,
     Suggest
   }
 }
