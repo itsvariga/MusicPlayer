@@ -103,20 +103,20 @@
   <div class="player" v-show="playlist.length > 0">
     <div class="normal-player" v-show="fullScreen">
       <div class="background">
-        <img width="100%" height="100%">
+        <img width="100%" height="100%" :src="currentSong.image">
       </div>
       <div class="top">
-        <div class="back">
+        <div class="back" @click="back">
           <i class="icon-back"></i>
         </div>
-        <h1 class="title"></h1>
-        <h2 class="subtitle"></h2>
+        <h1 class="title" v-html="currentSong.name"></h1>
+        <h2 class="subtitle" v-html="currentSong.singer"></h2>
       </div>
       <div class="middle">
         <div class="middle-l">
           <div class="cd-wrapper">
             <div class="cd">
-              <img class="image">
+              <img class="image" :src="currentSong.image">
             </div>
           </div>
         </div>
@@ -141,13 +141,13 @@
         </div>
       </div>
     </div>
-    <div class="mini-player" v-show="!fullScreen">
+    <div class="mini-player" v-show="!fullScreen" @click="open">
       <div class="icon">
-        <img width="40" height="40">
+        <img width="40" height="40" :src="currentSong.image">
       </div>
       <div class="text">
-        <h2 class="name"></h2>
-        <p class="desc"></p>
+        <h2 class="name" v-html="currentSong.name"></h2>
+        <p class="desc" v-html="currentSong.singer"></p>
       </div>
       <div class="control">
       </div>
@@ -159,7 +159,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {mapGetters} from 'vuex'
+import {mapGetters, mapMutations} from 'vuex'
 // import animations from 'create-keyframe-animation'
 // import {prefixStyle} from 'common/js/dom'
 // import ProgressBar from 'base/progress-bar/progress-bar'
@@ -206,7 +206,7 @@ export default {
       // 'currentIndex',
       'fullScreen',
       // 'playing',
-      // 'currentSong',
+      'currentSong',
       'playlist'
     ])
   },
@@ -214,12 +214,12 @@ export default {
   //   this.touch = {}
   // },
   methods: {
-    // back() {
-    //   this.setFullScreen(false)
-    // },
-    // open() {
-    //   this.setFullScreen(true)
-    // },
+    back() {
+      this.setFullScreen(false)
+    },
+    open() {
+      this.setFullScreen(true)
+    },
     // enter(el, done) {
     //   const {x, y, scale} = this._getPosAndScale()
 
@@ -460,9 +460,9 @@ export default {
     //     scale
     //   }
     // },
-    // ...mapMutations({
-    //   setFullScreen: 'SET_FULL_SCREEN'
-    // })
+    ...mapMutations({
+      setFullScreen: 'SET_FULL_SCREEN'
+    })
     // ...mapActions([
     //   'savePlayHistory'
     // ])
