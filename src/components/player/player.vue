@@ -132,14 +132,14 @@
             <div class="icon i-left">
               <i class="icon-sequence"></i>
             </div>
-            <div class="icon i-left">
-              <i class="icon-prev"></i>
+            <div class="icon i-left" :class="disableCls">
+              <i @click="prev" class="icon-prev"></i>
             </div>
-            <div class="icon i-center">
+            <div class="icon i-center" :class="disableCls">
               <i :class="playIcon" @click="togglePlaying"></i>
             </div>
-            <div class="icon i-right">
-              <i class="icon-next"></i>
+            <div class="icon i-right" :class="disableCls">
+              <i @click="next" class="icon-next"></i>
             </div>
             <div class="icon i-right">
               <i class="icon icon-not-favorite"></i>
@@ -165,7 +165,9 @@
         </div>
       </div>
     </transition>
-    <audio ref="audio" :src="currentSong.url"></audio>
+    <audio ref="audio" :src="currentSong.url"
+          @canplay="ready"
+          @error="error"></audio>
   </div>
 </template>
 
@@ -186,17 +188,17 @@ const transform = prefixStyle('transform')
 
 export default {
   // mixins: [playerMixin],
-  // data() {
-  //   return {
-  //     songReady: false,
-  //     currentTime: 0,
-  //     radius: 32,
-  //     currentLyric: null,
-  //     currentLineNum: 0,
-  //     currentShow: 'cd',
-  //     playingLyric: ''
-  //   }
-  // },
+  data() {
+    return {
+      songReady: false
+      // currentTime: 0,
+      // radius: 32,
+      // currentLyric: null,
+      // currentLineNum: 0,
+      // currentShow: 'cd',
+      // playingLyric: ''
+    }
+  },
   computed: {
     cdCls() {
       return this.playing ? 'play' : 'play pause'
@@ -207,14 +209,14 @@ export default {
     miniIcon() {
       return this.playing ? 'icon-pause-mini' : 'icon-play-mini'
     },
-    // disableCls() {
-    //   return this.songReady ? '' : 'disable'
-    // },
+    disableCls() {
+      return this.songReady ? '' : 'disable'
+    },
     // percent() {
     //   return this.currentTime / this.currentSong.duration
     // },
     ...mapGetters([
-      // 'currentIndex',
+      'currentIndex',
       'fullScreen',
       'playing',
       'currentSong',
@@ -272,9 +274,9 @@ export default {
       this.$refs.cdWrapper.style[transform] = ''
     },
     togglePlaying() {
-      // if (!this.songReady) {
-      //   return
-      // }
+      if (!this.songReady) {
+        return
+      }
       this.setPlayingState(!this.playing)
       // if (this.currentLyric) {
       //   this.currentLyric.togglePlay()
@@ -295,51 +297,51 @@ export default {
     //     this.currentLyric.seek(0)
     //   }
     // },
-    // next() {
-    //   if (!this.songReady) {
-    //     return
-    //   }
-    //   if (this.playlist.length === 1) {
-    //     this.loop()
-    //     return
-    //   } else {
-    //     let index = this.currentIndex + 1
-    //     if (index === this.playlist.length) {
-    //       index = 0
-    //     }
-    //     this.setCurrentIndex(index)
-    //     if (!this.playing) {
-    //       this.togglePlaying()
-    //     }
-    //   }
-    //   this.songReady = false
-    // },
-    // prev() {
-    //   if (!this.songReady) {
-    //     return
-    //   }
-    //   if (this.playlist.length === 1) {
-    //     this.loop()
-    //     return
-    //   } else {
-    //     let index = this.currentIndex - 1
-    //     if (index === -1) {
-    //       index = this.playlist.length - 1
-    //     }
-    //     this.setCurrentIndex(index)
-    //     if (!this.playing) {
-    //       this.togglePlaying()
-    //     }
-    //   }
-    //   this.songReady = false
-    // },
-    // ready() {
-    //   this.songReady = true
-    //   this.savePlayHistory(this.currentSong)
-    // },
-    // error() {
-    //   this.songReady = true
-    // },
+    next() {
+      if (!this.songReady) {
+        return
+      }
+      // if (this.playlist.length === 1) {
+      //   this.loop()
+      //   return
+      // } else {
+      let index = this.currentIndex + 1
+      if (index === this.playlist.length) {
+        index = 0
+      }
+      this.setCurrentIndex(index)
+      if (!this.playing) {
+        this.togglePlaying()
+      }
+      // }
+      this.songReady = false
+    },
+    prev() {
+      if (!this.songReady) {
+        return
+      }
+      // if (this.playlist.length === 1) {
+      //   this.loop()
+      //   return
+      // } else {
+      let index = this.currentIndex - 1
+      if (index === -1) {
+        index = this.playlist.length - 1
+      }
+      this.setCurrentIndex(index)
+      if (!this.playing) {
+        this.togglePlaying()
+      }
+      // }
+      this.songReady = false
+    },
+    ready() {
+      this.songReady = true
+      // this.savePlayHistory(this.currentSong)
+    },
+    error() {
+      this.songReady = true
+    },
     // updateTime(e) {
     //   this.currentTime = e.target.currentTime
     // },
@@ -473,7 +475,8 @@ export default {
     },
     ...mapMutations({
       setFullScreen: 'SET_FULL_SCREEN',
-      setPlayingState: 'SET_PLAYING_STATE'
+      setPlayingState: 'SET_PLAYING_STATE',
+      setCurrentIndex: 'SET_CURRENT_INDEX'
     })
     // ...mapActions([
     //   'savePlayHistory'
