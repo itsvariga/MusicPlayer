@@ -128,6 +128,11 @@
           </div>
         </div>
         <div class="bottom">
+          <div class="progress-wrapper">
+            <span class="time time-l">{{format(currentTime)}}</span>
+            <div class="progress-bar-wrapper"></div>
+            <span class="time time-r">{{format(currentSong.duration)}}</span>
+          </div>
           <div class="operators">
             <div class="icon i-left">
               <i class="icon-sequence"></i>
@@ -167,7 +172,8 @@
     </transition>
     <audio ref="audio" :src="currentSong.url"
           @canplay="ready"
-          @error="error"></audio>
+          @error="error"
+          @timeupdate="updateTime"></audio>
   </div>
 </template>
 
@@ -190,8 +196,8 @@ export default {
   // mixins: [playerMixin],
   data() {
     return {
-      songReady: false
-      // currentTime: 0,
+      songReady: false,
+      currentTime: 0
       // radius: 32,
       // currentLyric: null,
       // currentLineNum: 0,
@@ -342,15 +348,15 @@ export default {
     error() {
       this.songReady = true
     },
-    // updateTime(e) {
-    //   this.currentTime = e.target.currentTime
-    // },
-    // format(interval) {
-    //   interval = interval | 0
-    //   const minute = interval / 60 | 0
-    //   const second = this._pad(interval % 60)
-    //   return `${minute}:${second}`
-    // },
+    updateTime(e) {
+      this.currentTime = e.target.currentTime
+    },
+    format(interval) {
+      interval = interval | 0
+      const minute = interval / 60 | 0
+      const second = this._pad(interval % 60)
+      return `${minute}:${second}`
+    },
     // onProgressBarChange(percent) {
     //   const currentTime = this.currentSong.duration * percent
     //   this.$refs.audio.currentTime = currentTime
@@ -450,14 +456,14 @@ export default {
     //   this.$refs.middleL.style[transitionDuration] = `${time}ms`
     //   this.touch.initiated = false
     // },
-    // _pad(num, n = 2) {
-    //   let len = num.toString().length
-    //   while (len < n) {
-    //     num = '0' + num
-    //     len++
-    //   }
-    //   return num
-    // },
+    _pad(num, n = 2) {
+      let len = num.toString().length
+      while (len < n) {
+        num = '0' + num
+        len++
+      }
+      return num
+    },
     _getPosAndScale() {
       const targetWidth = 40
       const paddingLeft = 40
