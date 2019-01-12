@@ -101,8 +101,8 @@ export default {
       })
     },
     ...mapActions([
-      'selectPlay'
-      // 'randomPlay'
+      'selectPlay',
+      'randomPlay'
     ])
   },
   watch: {
