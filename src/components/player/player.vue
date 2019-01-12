@@ -25,6 +25,20 @@
               </div>
             </div>
           </div>
+          <scroll class="middle-r" ref="lyricList" :data="currentLyric && currentLyric.lines">
+            <div class="lyric-wrapper">
+              <div v-if="currentLyric">
+                <p ref="lyricLine"
+                  class="text"
+                  :class="{'current' : currentLineNum === index}"
+                  v-for="(line, index) in currentLyric.lines"
+                  :key="'line' + index"
+                >
+                  {{line.txt}}
+                </p>
+              </div>
+            </div>
+          </scroll>
         </div>
         <div class="bottom">
           <div class="progress-wrapper">
@@ -88,8 +102,8 @@ import {prefixStyle} from 'common/js/dom'
 import ProgressBar from 'base/progress-bar/progress-bar'
 import ProgressCircle from 'base/progress-circle/progress-circle'
 import {playMode} from 'common/js/config'
-// import Lyric from 'lyric-parser'
-// import Scroll from 'base/scroll/scroll'
+import Lyric from 'lyric-parser'
+import Scroll from 'base/scroll/scroll'
 // import {playerMixin} from 'common/js/mixin'
 // import Playlist from 'components/playlist/playlist'
 import {shuffle} from 'common/js/util'
@@ -103,11 +117,11 @@ export default {
     return {
       songReady: false,
       currentTime: 0,
-      radius: 32
-      // currentLyric: null,
-      // currentLineNum: 0,
-      // currentShow: 'cd',
-      // playingLyric: ''
+      radius: 32,
+      currentLyric: null,
+      currentLineNum: 0,
+      currentShow: 'cd',
+      playingLyric: ''
     }
   },
   computed: {
@@ -295,31 +309,31 @@ export default {
       })
       this.setCurrentIndex(index)
     },
-    // getLyric() {
-    //   this.currentSong.getLyric().then((lyric) => {
-    //     if (this.currentSong.lyric !== lyric) {
-    //       return
-    //     }
-    //     this.currentLyric = new Lyric(lyric, this.handleLyric)
-    //     if (this.playing) {
-    //       this.currentLyric.play()
-    //     }
-    //   }).catch(() => {
-    //     this.currentLyric = null
-    //     this.playingLyric = ''
-    //     this.currentLineNum = 0
-    //   })
-    // },
-    // handleLyric({lineNum, txt}) {
-    //   this.currentLineNum = lineNum
-    //   if (lineNum > 5) {
-    //     let lineEl = this.$refs.lyricLine[lineNum - 5]
-    //     this.$refs.lyricList.scrollToElement(lineEl, 1000)
-    //   } else {
-    //     this.$refs.lyricList.scrollTo(0, 0, 1000)
-    //   }
-    //   this.playingLyric = txt
-    // },
+    getLyric() {
+      this.currentSong.getLyric().then((lyric) => {
+        if (this.currentSong.lyric !== lyric) {
+          return
+        }
+        this.currentLyric = new Lyric(lyric, this.handleLyric)
+        if (this.playing) {
+          this.currentLyric.play()
+        }
+      }).catch(() => {
+        this.currentLyric = null
+        this.playingLyric = ''
+        this.currentLineNum = 0
+      })
+    },
+    handleLyric({lineNum, txt}) {
+      this.currentLineNum = lineNum
+      if (lineNum > 5) {
+        let lineEl = this.$refs.lyricLine[lineNum - 5]
+        this.$refs.lyricList.scrollToElement(lineEl, 1000)
+      } else {
+        this.$refs.lyricList.scrollTo(0, 0, 1000)
+      }
+      this.playingLyric = txt
+    },
     // showPlaylist() {
     //   this.$refs.playlist.show()
     // },
@@ -439,6 +453,7 @@ export default {
       // }, 1000)
       this.$nextTick(() => {
         this.$refs.audio.play()
+        this.getLyric()
       })
     },
     playing(newPlaying) {
@@ -457,8 +472,8 @@ export default {
   },
   components: {
     ProgressBar,
-    ProgressCircle
-    // Scroll,
+    ProgressCircle,
+    Scroll
     // Playlist
   }
 }
