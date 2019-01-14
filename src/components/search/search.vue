@@ -42,51 +42,34 @@ import Confirm from 'base/confirm/confirm'
 import Suggest from 'components/suggest/suggest'
 import {getHotKey} from 'api/search'
 import {ERR_OK} from 'api/config'
-// import {playlistMixin, searchMixin} from 'common/js/mixin'
-import {mapActions, mapGetters} from 'vuex'
+import {playlistMixin, searchMixin} from 'common/js/mixin'
+import {mapActions} from 'vuex'
 
 export default {
-  // mixins: [playlistMixin, searchMixin],
+  mixins: [playlistMixin, searchMixin],
   data() {
     return {
-      hotKey: [],
-      query: ''
+      hotKey: []
     }
   },
   computed: {
     shortcut() {
       return this.hotKey.concat(this.searchHistory)
-    },
-    ...mapGetters([
-      'searchHistory'
-    ])
+    }
   },
   created() {
     this._getHotKey()
   },
   methods: {
-    addQuery(query) {
-      this.$refs.searchBox.setQuery(query)
-      this.saveSearchHistory(query)
-    },
-    onQueryChange(query) {
-      this.query = query
-    },
-    blurInput() {
-      this.$refs.searchBox.blur()
-    },
-    saveSearch() {
-      this.saveSearchHistory(this.query)
-    },
-    // handlePlaylist(playlist) {
-    //   const bottom = playlist.length > 0 ? '60px' : ''
+    handlePlaylist(playlist) {
+      const bottom = playlist.length > 0 ? '60px' : ''
 
-    //   this.$refs.searchResult.style.bottom = bottom
-    //   this.$refs.suggest.refresh()
+      this.$refs.searchResult.style.bottom = bottom
+      this.$refs.suggest.refresh()
 
-    //   this.$refs.shortcutWrapper.style.bottom = bottom
-    //   this.$refs.shortcut.refresh()
-    // },
+      this.$refs.shortcutWrapper.style.bottom = bottom
+      this.$refs.shortcut.refresh()
+    },
     showConfirm() {
       this.$refs.confirm.show()
     },
@@ -98,9 +81,6 @@ export default {
       })
     },
     ...mapActions([
-      // 'clearSearchHistory'
-      'saveSearchHistory',
-      'deleteSearchHistory',
       'clearSearchHistory'
     ])
   },
