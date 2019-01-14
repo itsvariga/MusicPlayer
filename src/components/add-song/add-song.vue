@@ -15,18 +15,18 @@
           :switches="switches"
           :currentIndex="currentIndex"
           @switch="switchItem"></switches>
-        <!-- <div class="list-wrapper">
-          <scroll ref="songList" class="list-scroll">
+        <div class="list-wrapper">
+          <scroll ref="songList" class="list-scroll" v-if="currentIndex === 0" :data="playHistory">
             <div class="list-inner">
-              <song-list></song-list>
+              <song-list :songs="playHistory"></song-list>
             </div>
           </scroll>
           <scroll ref="searchList" class="list-scroll">
             <div class="list-inner">
-              <search-list></search-list>
+              <!-- <search-list></search-list> -->
             </div>
           </scroll>
-        </div> -->
+        </div>
       </div>
       <div class="search-result" v-show="query">
         <suggest
@@ -47,14 +47,14 @@
 
 <script type="text/ecmascript-6">
 import SearchBox from 'base/search-box/search-box'
-// import SongList from 'base/song-list/song-list'
+import SongList from 'base/song-list/song-list'
 // import SearchList from 'base/search-list/search-list'
-// import Scroll from 'base/scroll/scroll'
+import Scroll from 'base/scroll/scroll'
 import Switches from 'base/switches/switches'
 // import TopTip from 'base/top-tip/top-tip'
 import Suggest from 'components/suggest/suggest'
 import {searchMixin} from 'common/js/mixin'
-// import {mapGetters, mapActions} from 'vuex'
+import {mapGetters, mapActions} from 'vuex'
 // import Song from 'common/js/song'
 
 export default {
@@ -76,9 +76,9 @@ export default {
     }
   },
   computed: {
-    // ...mapGetters([
-    //     'playHistory'
-    // ])
+    ...mapGetters([
+      'playHistory'
+    ])
   },
   methods: {
     show() {
@@ -106,16 +106,16 @@ export default {
     },
     switchItem(index) {
       this.currentIndex = index
-    }
-    // ...mapActions([
+    },
+    ...mapActions([
     //   'insertSong'
-    // ])
+    ])
   },
   components: {
     SearchBox,
-    // SongList,
+    SongList,
     // SearchList,
-    // Scroll,
+    Scroll,
     Switches,
     // TopTip,
     Suggest

@@ -100,7 +100,7 @@
     </transition>
     <playlist ref="playlist"></playlist>
     <audio ref="audio" :src="currentSong.url"
-          @canplay="ready"
+          @play="ready"
           @error="error"
           @timeupdate="updateTime"
           @ended="end"></audio>
@@ -108,7 +108,7 @@
 </template>
 
 <script type="text/ecmascript-6">
-import {mapGetters, mapMutations} from 'vuex'
+import {mapGetters, mapMutations, mapActions} from 'vuex'
 import animations from 'create-keyframe-animation'
 import {prefixStyle} from 'common/js/dom'
 import ProgressBar from 'base/progress-bar/progress-bar'
@@ -273,7 +273,7 @@ export default {
     },
     ready() {
       this.songReady = true
-      // this.savePlayHistory(this.currentSong)
+      this.savePlayHistory(this.currentSong)
     },
     error() {
       this.songReady = true
@@ -412,10 +412,10 @@ export default {
     },
     ...mapMutations({
       setFullScreen: 'SET_FULL_SCREEN'
-    })
-    // ...mapActions([
-    //   'savePlayHistory'
-    // ])
+    }),
+    ...mapActions([
+      'savePlayHistory'
+    ])
   },
   watch: {
     currentSong(newSong, oldSong) {
