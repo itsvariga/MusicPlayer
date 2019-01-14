@@ -93,11 +93,12 @@
             <i @click.stop="togglePlaying" class="icon-mini" :class="miniIcon"></i>
           </progress-circle>
         </div>
-        <div class="control">
+        <div class="control" @click="showPlaylist">
           <i class="icon-playlist"></i>
         </div>
       </div>
     </transition>
+    <playlist ref="playlist"></playlist>
     <audio ref="audio" :src="currentSong.url"
           @canplay="ready"
           @error="error"
@@ -116,7 +117,7 @@ import {playMode} from 'common/js/config'
 import Lyric from 'lyric-parser'
 import Scroll from 'base/scroll/scroll'
 // import {playerMixin} from 'common/js/mixin'
-// import Playlist from 'components/playlist/playlist'
+import Playlist from 'components/playlist/playlist'
 import {shuffle} from 'common/js/util'
 
 const transform = prefixStyle('transform')
@@ -484,8 +485,8 @@ export default {
   components: {
     ProgressBar,
     ProgressCircle,
-    Scroll
-    // Playlist
+    Scroll,
+    Playlist
   }
 }
 </script>
