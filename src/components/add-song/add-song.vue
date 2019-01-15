@@ -16,7 +16,7 @@
           :currentIndex="currentIndex"
           @switch="switchItem"></switches>
         <div class="list-wrapper">
-          <scroll ref="songList" class="list-scroll" v-if="currentIndex === 0" :data="playHistory">
+          <scroll :refreshDelay="refreshDelay" ref="songList" class="list-scroll" v-if="currentIndex === 0" :data="playHistory">
             <div class="list-inner">
               <song-list :songs="playHistory"></song-list>
             </div>
@@ -25,6 +25,7 @@
                   class="list-scroll"
                   v-if="currentIndex === 1"
                   :data="searchHistory"
+                  :refreshDelay="refreshDelay"
                   >
             <div class="list-inner">
               <search-list
