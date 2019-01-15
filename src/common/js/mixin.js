@@ -111,6 +111,7 @@ export const searchMixin = {
     },
     addQuery(query) {
       this.$refs.searchBox.setQuery(query)
+      this.saveSearchHistory(query)
     },
     saveSearch() {
       this.saveSearchHistory(this.query)

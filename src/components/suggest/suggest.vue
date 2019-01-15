@@ -58,9 +58,9 @@ export default {
     }
   },
   methods: {
-    // refresh() {
-    //   this.$refs.suggest.refresh()
-    // },
+    refresh() {
+      this.$refs.suggest.refresh()
+    },
     search() {
       this.page = 1
       this.hasMore = true
