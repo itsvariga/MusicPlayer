@@ -42,12 +42,12 @@
           @select="selectSuggest"
           @listscroll="blurInput"></suggest>
       </div>
-      <!-- <top-tip ref="topTip">
+      <top-tip ref="topTip">
         <div class="tip-title">
           <i class="icon-ok"></i>
           <span class="text">1首歌曲已经添加到播放列表</span>
         </div>
-      </top-tip> -->
+      </top-tip>
     </div>
   </transition>
 </template>
@@ -58,7 +58,7 @@ import SongList from 'base/song-list/song-list'
 import SearchList from 'base/search-list/search-list'
 import Scroll from 'base/scroll/scroll'
 import Switches from 'base/switches/switches'
-// import TopTip from 'base/top-tip/top-tip'
+import TopTip from 'base/top-tip/top-tip'
 import Suggest from 'components/suggest/suggest'
 import {searchMixin} from 'common/js/mixin'
 import {mapGetters, mapActions} from 'vuex'
@@ -124,7 +124,7 @@ export default {
     SearchList,
     Scroll,
     Switches,
-    // TopTip,
+    TopTip,
     Suggest
   }
 }
