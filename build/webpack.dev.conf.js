@@ -77,10 +77,10 @@ const devWebpackConfig = merge(baseWebpackConfig, {
         })
        }),
        app.get('/api/search', function (req, res) {
-        var url = 'https://c.y.qq.com/qzone-music/fcg-bin/fcg_ucc_getcdinfo_byids_cp.fcg'
+        var url = 'https://c.y.qq.com/soso/fcgi-bin/search_for_qq_cp'
         axios.get(url, {
           headers: {
-            referer: 'https://c.y.qq.com/',
+            referer: 'https://y.qq.com',
             host: 'c.y.qq.com'
           },
           params: req.query

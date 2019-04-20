@@ -31,8 +31,8 @@ import NoResult from 'base/no-result/no-result'
 import {search} from 'api/search'
 import {ERR_OK} from 'api/config'
 import {createSong} from 'common/js/song'
-// import {mapMutations, mapActions} from 'vuex'
-// import Singer from 'common/js/singer'
+import {mapMutations, mapActions} from 'vuex'
+import Singer from 'common/js/singer'
 
 const TYPE_SINGER = 'singer'
 const perpage = 20
@@ -88,18 +88,21 @@ export default {
       this.$emit('listScroll')
     },
     selectItem(item) {
-      // if (item.type === TYPE_SINGER) {
-      //   const singer = new Singer({
-      //     id: item.singermid,
-      //     name: item.singername
-      //   })
-      //   this.$router.push({
-      //     path: `/search/${singer.id}`
-      //   })
-      //   this.setSinger(singer)
-      // } else {
-      //   this.insertSong(item)
-      // }
+      if (item.type === TYPE_SINGER) {
+        const singer = new Singer({
+          id: item.singermid,
+          name: item.singername
+        })
+        this.$router.push({
+          path: `/singer/${singer.id}`
+        })
+        this.setSinger(singer)
+      } else {
+        item.strMediaMid = item.mid
+        item.url = `http://isure.stream.qqmusic.qq.com/C400${item.strMediaMid}.m4a?guid=8668418222&vkey=BA6D8102520D356E4E3063EF347B36D38B178A471C59002285AB70E6D1C68905FB5F04FEA4061A73956BAD9BAF05F4E2B6126220F10B5528&uin=0&fromtag=38`
+        console.log(item, '123')
+        this.insertSong(item)
+      }
       this.$emit('select', item)
     },
     getDisplayName(item) {
@@ -140,13 +143,13 @@ export default {
       if (!song.list.length || (song.curnum + song.curpage * perpage) > song.totalnum) {
         this.hasMore = false
       }
-    }
-    // ...mapMutations({
-    //   setSinger: 'SET_SINGER'
-    // }),
-    // ...mapActions([
-    //   'insertSong'
-    // ])
+    },
+    ...mapMutations({
+      setSinger: 'SET_SINGER'
+    }),
+    ...mapActions([
+      'insertSong'
+    ])
   },
   watch: {
     query(newQuery) {
