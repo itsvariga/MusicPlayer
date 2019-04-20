@@ -30,7 +30,7 @@
       <suggest ref="suggest" :query="query" @listScroll="blurInput" @select="saveSearch"></suggest>
     </div>
     <confirm ref="confirm" @confirm="clearSearchHistory" text="是否清空所有搜索历史" confirmBtnText="清空"></confirm>
-    <!-- <router-view></router-view> -->
+    <router-view></router-view>
   </div>
 </template>
 
