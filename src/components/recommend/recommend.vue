@@ -141,7 +141,7 @@ export default {
             font-size: $font-size-medium
             .name
               margin-bottom: 10px
-              color: $color-text
+              color: $color-text-ll
             .desc
               color: $color-text-d
       .loading-container
