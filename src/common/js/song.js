@@ -31,9 +31,9 @@ export default class Song {
 }
 
 export function createSong(musicData) {
-  const vkey = '62C3D078FD8001B5EEE65084DF1A76EC75D9764E393B8BB6613D17DF619B6444DA2770337BF0B270D6A92E21B7E9B9FE8B36551B7A659C61'
-  const guid = '7642911720'
-  const uin = '1734'
+  const vkey = '61F60C619BDC6B7CFB1C34C4ED9FDE26B1E46597383F782094C5B6C37696FF1D4BA539B9B9C62A466C9E06F3665903D3FC5053C5B09236EC'
+  const guid = '8668418222'
+  const uin = '0'
   const fromtag = '38'
   return new Song({
     id: musicData.songid,
